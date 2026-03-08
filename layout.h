@@ -14,6 +14,8 @@ typedef enum {
 typedef struct {
     ScreenEdge edge;
     int margin;
+    GtkLayerShellLayer layer;
+    int exclusive_zone;
     gboolean is_vertical;
     gchar *toggle_visibility_bind;
     gchar *toggle_expand_bind;

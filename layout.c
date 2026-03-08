@@ -29,6 +29,13 @@ gchar *default_config =
     "# Margin from the screen edge (in pixels)\n"
     "margin = 10\n"
     "\n"
+    "# Layer to render on\n"
+    "# Options: background, bottom, top, overlay\n"
+    "layer = top\n"
+    "\n"
+    "# Exclusive zone: 0 = respect other surfaces, -1 = overlap everything\n"
+    "exclusive_zone = 0\n"
+    "\n"
     "[MusicPlayer]\n"
     "# Comma-separated list of preferred music players (first = highest priority)\n"
     "# HyprWave will search for these in order and latch onto the first one found\n"
@@ -75,6 +82,8 @@ gchar *default_config =
 // Set defaults
 config->edge = EDGE_RIGHT;
 config->margin = 10;
+config->layer = GTK_LAYER_SHELL_LAYER_OVERLAY;
+config->exclusive_zone = 0;
 config->toggle_visibility_bind = g_strdup("Super+Shift+M");
 config->toggle_expand_bind = g_strdup("Super+M");
 config->notifications_enabled = TRUE;
@@ -106,7 +115,28 @@ config->player_preference_count = 0;            // NEW
         
         config->margin = g_key_file_get_integer(keyfile, "General", "margin", NULL);
         if (config->margin == 0) config->margin = 10;
-        
+
+        gchar *layer_str = g_key_file_get_string(keyfile, "General", "layer", NULL);
+        if (layer_str) {
+            if (g_strcmp0(layer_str, "background") == 0) {
+                config->layer = GTK_LAYER_SHELL_LAYER_BACKGROUND;
+            } else if (g_strcmp0(layer_str, "bottom") == 0) {
+                config->layer = GTK_LAYER_SHELL_LAYER_BOTTOM;
+            } else if (g_strcmp0(layer_str, "top") == 0) {
+                config->layer = GTK_LAYER_SHELL_LAYER_TOP;
+            } else {
+                config->layer = GTK_LAYER_SHELL_LAYER_OVERLAY;
+            }
+            g_free(layer_str);
+        }
+
+        GError *ez_err = NULL;
+        gint ez_val = g_key_file_get_integer(keyfile, "General", "exclusive_zone", &ez_err);
+        if (!ez_err) {
+            config->exclusive_zone = ez_val;
+        }
+        g_clear_error(&ez_err);
+
         // Load Keybinds section (optional)
         gchar *vis_bind = g_key_file_get_string(keyfile, "Keybinds", "toggle_visibility", NULL);
         if (vis_bind) {

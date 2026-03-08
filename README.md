@@ -119,6 +119,7 @@ https://github.com/user-attachments/assets/c4e84d3c-c93f-4bfe-b5e9-f7888b3b8b53
 - **Idle Mode** - Automatically morphs into visualizer/display after inactivity
 - **Now Playing Notifications** - Elegant slide-in notifications for track changes
 - **Configurable Layout** - Position on any screen edge (left, right, top, bottom)
+- **Layer & Exclusive Zone Control** - Choose which layer to render on and whether to overlap other surfaces like waybar
 - **Gaming Support** - Control music during gameplay without moving mouse
 - **Minimal Resource Usage** - ~80-95MB RAM, <0.3% CPU, drops to 20-30MB in idle mode
 - **Dynamic Island Inspired Animation** - Smooth morphing transitions between modes
@@ -316,6 +317,17 @@ edge = right
 # Margin from the screen edge (in pixels)
 margin = 10
 
+# Layer to render on (works on any wlr-layer-shell compositor)
+# Options: background, bottom, top, overlay
+# Use "top" to stay below fullscreen windows (same layer as waybar)
+# Use "overlay" to render above everything including fullscreen
+layer = top
+
+# Exclusive zone controls surface overlap behavior
+# 0 = respect other surfaces' reserved space (e.g. waybar)
+# -1 = overlap everything, ignore other surfaces' exclusive zones
+exclusive_zone = 0
+
 [Notifications]
 enabled = true
 now_playing = true
@@ -337,6 +349,8 @@ preference = spotify,vlc,firefox,brave
 ```
 
 **Note:** Position and themes can be changed on-the-fly without editing config!
+
+**Note:** The `layer` and `exclusive_zone` options use the `wlr-layer-shell` protocol and work on **any compatible Wayland compositor** (Hyprland, Sway, river, wayfire, Niri, etc.) — they are not Hyprland-specific.
 
 ## Customization
 

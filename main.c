@@ -1635,11 +1635,11 @@ static void activate(GtkApplication *app, gpointer user_data) {
     
     // LAYER SHELL SETUP
     gtk_layer_init_for_window(GTK_WINDOW(window));
-    gtk_layer_set_layer(GTK_WINDOW(window), GTK_LAYER_SHELL_LAYER_OVERLAY);
+    gtk_layer_set_layer(GTK_WINDOW(window), state->layout->layer);
     gtk_layer_set_namespace(GTK_WINDOW(window), "hyprwave");
     layout_setup_window_anchors(GTK_WINDOW(window), state->layout);
     gtk_layer_set_keyboard_mode(GTK_WINDOW(window), GTK_LAYER_SHELL_KEYBOARD_MODE_NONE);
-    gtk_layer_set_exclusive_zone(GTK_WINDOW(window), 0);
+    gtk_layer_set_exclusive_zone(GTK_WINDOW(window), state->layout->exclusive_zone);
     gtk_widget_set_name(window, "hyprwave-window");
     gtk_widget_add_css_class(window, "hyprwave-window");
     
