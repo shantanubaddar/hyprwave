@@ -1,4 +1,4 @@
-# hyprwave - v1.0 (STABLE)
+# hyprwave - v1.1 (STABLE)
 
 A sleek, modern music control bar for Wayland compositors (Hyprland, Niri, Sway, etc.) with MPRIS integration, 14 built-in themes, and dynamic customization.
 
